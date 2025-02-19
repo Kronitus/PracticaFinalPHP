@@ -87,26 +87,45 @@ session_start();
             </ul>
         </nav>
         <main class="contenido">
-            <h2>USUARIOS</h2>
-            <form action="añadir2.php" method="post" class="formulariopro">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" required><br>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required><br>
-                <label for="apellidos">Apellido:</label>
-                <input type="text" name="apellidos" required><br>
-                <label for="dni">DNI:</label>
-                <input type="text" name="dni" min=9 max=9 required><br>
-                <label for="saldo">Saldo:</label>
-                <input type="number" name="saldo" required><br>
-                <label for="tipo">Tipo de usuario:</label>
-                <select name="tipo">
-                    <option value="comprador">Comprador</option>
-                    <option value="vendedor">Vendedor</option>
-                    <option value="administrador">Administrador</option>
-                </select><br>
-                <input type="submit" value="Insertar">
-            </form>
+        <h2>COCHES</h2>
+        <?PHP
+            $servername="localhost";$username="root";$password="rootroot";$dbname="Concesionario";
+            
+            $conn = mysqli_connect ($servername,$username,$password,$dbname);
+            
+            if (!$conn){
+                die ("conexion fallida: ". mysqli_connect_error());
+            }
+            
+            $modelo=$_REQUEST['modelo'];
+            $marca=$_REQUEST['marca'];
+            $color=$_REQUEST['color'];
+            $precio=$_REQUEST['precio'];
+            $alquilado=$_REQUEST['alquilado'];
+            
+            $target_dir = "./img/";
+            $file = $_FILES['imagen'];
+            $target_file = $target_dir . basename($file["name"]);
+            $image_name = basename($file["name"]);
+
+            if (move_uploaded_file($file["tmp_name"], $target_file)) {
+                echo "La imagen " . htmlspecialchars($image_name) . " se ha subido correctamente.<br>";
+            } else {
+                die ("Hubo un error al subir el archivo.");
+            }
+            
+            $sql = "insert into coches (modelo, marca, color, precio, alquilado, foto) values ('$modelo','$marca','$color','$precio','$alquilado','$image_name')";
+            
+            if (mysqli_query($conn,$sql)){
+                echo "Coche insertado con éxito.";
+            }
+            else{
+                echo "Error al insertar el coche: ". mysqli_error($conn);
+            }
+            
+            mysqli_close($conn);
+            echo "<br><a href='añadir.php' class='plis'>Volver para añadir</a>";
+        ?>
         </main>
         <footer class="footer">
             <p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,

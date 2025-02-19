@@ -87,24 +87,12 @@ session_start();
             </ul>
         </nav>
         <main class="contenido">
-            <h2>USUARIOS</h2>
-            <form action="añadir2.php" method="post" class="formulariopro">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" required><br>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required><br>
-                <label for="apellidos">Apellido:</label>
-                <input type="text" name="apellidos" required><br>
-                <label for="dni">DNI:</label>
-                <input type="text" name="dni" min=9 max=9 required><br>
-                <label for="saldo">Saldo:</label>
-                <input type="number" name="saldo" required><br>
-                <label for="tipo">Tipo de usuario:</label>
-                <select name="tipo">
-                    <option value="comprador">Comprador</option>
-                    <option value="vendedor">Vendedor</option>
-                    <option value="administrador">Administrador</option>
-                </select><br>
+            <h2>COCHES</h2>
+            <form action="buscar2.php" method="post" class="formulariopro">
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" required><br>
+                <label for="marca">Marca:</label>
+                <input type="text" name="marca" required><br>
                 <input type="submit" value="Insertar">
             </form>
         </main>

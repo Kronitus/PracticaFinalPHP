@@ -87,26 +87,35 @@ session_start();
             </ul>
         </nav>
         <main class="contenido">
-            <h2>USUARIOS</h2>
-            <form action="añadir2.php" method="post" class="formulariopro">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" required><br>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required><br>
-                <label for="apellidos">Apellido:</label>
-                <input type="text" name="apellidos" required><br>
-                <label for="dni">DNI:</label>
-                <input type="text" name="dni" min=9 max=9 required><br>
-                <label for="saldo">Saldo:</label>
-                <input type="number" name="saldo" required><br>
-                <label for="tipo">Tipo de usuario:</label>
-                <select name="tipo">
-                    <option value="comprador">Comprador</option>
-                    <option value="vendedor">Vendedor</option>
-                    <option value="administrador">Administrador</option>
-                </select><br>
-                <input type="submit" value="Insertar">
-            </form>
+        <h2>USUARIOS</h2>
+        <?PHP
+            $servername="localhost";$username="root";$password="rootroot";$dbname="Concesionario";
+            
+            $conn = mysqli_connect ($servername,$username,$password,$dbname);
+            
+            if (!$conn){
+                die ("conexion fallida: ". mysqli_connect_error());
+            }
+            
+            $password=$_REQUEST['password'];
+            $nombre=$_REQUEST['nombre'];
+            $apellidos=$_REQUEST['apellidos'];
+            $dni=$_REQUEST['dni'];
+            $saldo=$_REQUEST['saldo'];
+            $tipo=$_REQUEST['tipo'];
+            
+            $sql = "insert into usuarios (password, nombre, apellidos, dni, saldo, tipo_usuario) values ('$password','$nombre','$apellidos','$dni','$saldo','$tipo')";
+            
+            if (mysqli_query($conn,$sql)){
+                echo "Usuario insertado con éxito.";
+            }
+            else{
+                echo "Error al insertar el usuario: ". mysqli_error($conn);
+            }
+            
+            mysqli_close($conn);
+            echo "<br><a href='añadir.php' class='plis'>Volver para añadir</a>";
+        ?>
         </main>
         <footer class="footer">
             <p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,

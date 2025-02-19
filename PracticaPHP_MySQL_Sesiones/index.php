@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!isset($_SESSION['tipo'])) {
+    $_SESSION['tipo']="invitado";
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,16 +25,16 @@ session_start();
         <nav class="navega">
             <ul>
                 <li>
-                    <a href="./coches/coches.html">Coches</a>
+                    <a href="./coches/coches.php">Coches</a>
                     <ul>
                         <li><a href="./index.php">Inicio</a></li>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
-                            echo "<li><a href='./coches/añadir.html'>Añadir</a></li>";
+                            echo "<li><a href='./coches/añadir.php'>Añadir</a></li>";
                         }?>
                         <li><a href="./coches/listar.php">Listar</a></li>
-                        <li><a href="./coches/buscar.html">Buscar</a></li>
+                        <li><a href="./coches/buscar.php">Buscar</a></li>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
-                            echo "<li><a href='./coches/modificar.html'>Modificar</a></li>";
+                            echo "<li><a href='./coches/modificar.php'>Modificar</a></li>";
                         }?>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
                             echo "<li><a href='./coches/borrar.php'>Borrar</a></li>";
@@ -40,20 +43,20 @@ session_start();
                 </li>
                 <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){ ?>
                 <li>
-                    <a href="./usuarios/usuarios.html">Usuarios</a>
+                    <a href="./usuarios/usuarios.php">Usuarios</a>
                     <ul>
                         <li><a href="./index.php">Inicio</a></li>
                         <?php if ($_SESSION['tipo']=='administrador'){
-                            echo "<li><a href='./usuarios/añadir.html'>Añadir</a></li>";
+                            echo "<li><a href='./usuarios/añadir.php'>Añadir</a></li>";
                         }?>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
                             echo "<li><a href='./usuarios/listar.php'>Listar</a></li>";
                         }?>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
-                            echo "<li><a href='./usuarios/buscar.html'>Buscar</a></li>";
+                            echo "<li><a href='./usuarios/buscar.php'>Buscar</a></li>";
                         }?>
                         <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){
-                            echo "<li><a href='./usuarios/modificar.html'>Modificar</a></li>";
+                            echo "<li><a href='./usuarios/modificar.php'>Modificar</a></li>";
                         }?>
                         <?php if ($_SESSION['tipo']=='administrador'){
                             echo "<li><a href='./usuarios/borrar.php'>Borrar</a></li>";
@@ -63,7 +66,7 @@ session_start();
                 <?php } ?>
                 <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){ ?>
                     <li>
-                        <a href="./alquileres/alquileres.html">Alquileres</a>
+                        <a href="./alquileres/alquileres.php">Alquileres</a>
                         <ul>
                             <li><a href="./index.php">Inicio</a></li>
                             <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){

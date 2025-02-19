@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -7,41 +10,71 @@
 		<title>AutosOctagram</title>
 	</head>
 	<body>
+        <?php
+            $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
+            if (!$conn){
+                die ("conexion fallida: ". mysqli_connect_error());
+            }
+        ?>
 		<header class="header">
             <h1>Autos Octagram</h1>
         </header>
         <nav class="navega">
             <ul>
                 <li>
-                    <a href="../coches/coches.html">Coches</a>
+                    <a href="../coches/coches.php">Coches</a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../coches/añadir.html">Añadir</a></li>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../coches/añadir.php'>Añadir</a></li>";
+                        }?>
                         <li><a href="../coches/listar.php">Listar</a></li>
-                        <li><a href="../coches/buscar.html">Buscar</a></li>
-                        <li><a href="../coches/modificar.html">Modificar</a></li>
-                        <li><a href="../coches/borrar.php">Borrar</a></li>
+                        <li><a href="../coches/buscar.php">Buscar</a></li>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../coches/modificar.php'>Modificar</a></li>";
+                        }?>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../coches/borrar.php'>Borrar</a></li>";
+                        }?>
                     </ul>
                 </li>
+                <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){ ?>
                 <li>
-                    <a href="../usuarios/usuarios.html">Usuarios</a>
+                    <a href="../usuarios/usuarios.php">Usuarios</a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../usuarios/añadir.html">Añadir</a></li>
-                        <li><a href="../usuarios/listar.php">Listar</a></li>
-                        <li><a href="../usuarios/buscar.html">Buscar</a></li>
-                        <li><a href="../usuarios/modificar.html">Modificar</a></li>
-                        <li><a href="../usuarios/borrar.php">Borrar</a></li>
+                        <?php if ($_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../usuarios/añadir.php'>Añadir</a></li>";
+                        }?>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../usuarios/listar.php'>Listar</a></li>";
+                        }?>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../usuarios/buscar.php'>Buscar</a></li>";
+                        }?>
+                        <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){
+                            echo "<li><a href='../usuarios/modificar.php'>Modificar</a></li>";
+                        }?>
+                        <?php if ($_SESSION['tipo']=='administrador'){
+                            echo "<li><a href='../usuarios/borrar.php'>Borrar</a></li>";
+                        }?>
                     </ul>
                 </li>
-                <li>
-                    <a href="../alquileres/alquileres.html">Alquileres</a>
-                    <ul>
-                        <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../alquileres/listar.php">Listar</a></li>
-                        <li><a href="../alquileres/borrar.php">Borrar</a></li>
-                    </ul>
-                </li>
+                <?php } ?>
+                <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){ ?>
+                    <li>
+                        <a href="../alquileres/alquileres.php">Alquileres</a>
+                        <ul>
+                            <li><a href="../index.php">Inicio</a></li>
+                            <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){
+                                echo "<li><a href='../alquileres/listar.php'>Listar</a></li>";
+                            }?>
+                            <?php if ($_SESSION['tipo']=='comprador' || $_SESSION['tipo']=='administrador'){
+                                echo "<li><a href='../alquileres/borrar.php'>Borrar</a></li>";
+                            }?>
+                        </ul>
+                    </li>
+                <?php } ?>
                 <li>
                     <a href="../registro.html"><img src="../icono.png" width="20"></a>
                     <ul>
@@ -104,7 +137,7 @@
             }
             
             mysqli_close($conn);
-            echo "<a href='buscar.html' class='plis'>Volver al listado</a>";
+            echo "<a href='buscar.php' class='plis'>Volver al listado</a>";
         ?>
         </main>
         <footer class="footer">

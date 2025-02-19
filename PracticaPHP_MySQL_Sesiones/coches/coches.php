@@ -87,26 +87,20 @@ session_start();
             </ul>
         </nav>
         <main class="contenido">
-            <h2>USUARIOS</h2>
-            <form action="añadir2.php" method="post" class="formulariopro">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" required><br>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required><br>
-                <label for="apellidos">Apellido:</label>
-                <input type="text" name="apellidos" required><br>
-                <label for="dni">DNI:</label>
-                <input type="text" name="dni" min=9 max=9 required><br>
-                <label for="saldo">Saldo:</label>
-                <input type="number" name="saldo" required><br>
-                <label for="tipo">Tipo de usuario:</label>
-                <select name="tipo">
-                    <option value="comprador">Comprador</option>
-                    <option value="vendedor">Vendedor</option>
-                    <option value="administrador">Administrador</option>
-                </select><br>
-                <input type="submit" value="Insertar">
-            </form>
+            <h2>COCHES</h2>
+            <p>¿Que operación quieres hacer?</p><br>
+            <div class="botones">
+                <a href="añadir.php" class="boton">Añadir</a>
+                <a href="listar.php" class="boton">Listar</a>
+                <a href="buscar.php" class="boton">Buscar</a>
+                <a href="modificar.php" class="boton">Modificar</a>
+                <a href="borrar.php" class="boton">Borrar</a>
+            </div><br>
+            <section class="galeria">
+                <div class="galeriaimagenes">
+                    <img src="coches.jpg" width="500" height="400">
+                </div>
+            </section>
         </main>
         <footer class="footer">
             <p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,
