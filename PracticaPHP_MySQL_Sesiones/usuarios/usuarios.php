@@ -90,11 +90,21 @@ session_start();
             <h2>USUARIOS</h2>
             <p>¿Que operación quieres hacer?</p><br>
             <div class="botones">
-                <a href="añadir.php" class="boton">Añadir</a>
-                <a href="listar.php" class="boton">Listar</a>
-                <a href="buscar.php" class="boton">Buscar</a>
-                <a href="modificar.php" class="boton">Modificar</a>
-                <a href="borrar.php" class="boton">Borrar</a>
+                <?php if ($_SESSION['tipo']=='administrador'){
+                    echo "<a href='añadir.php' class='boton'>Añadir</a>";
+                }?>
+                <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                    echo "<a href='listar.php' class='boton'>Listar</a>";
+                }?>
+                <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador'){
+                    echo "<a href='buscar.php' class='boton'>Buscar</a>";
+                }?>
+                <?php if ($_SESSION['tipo']=='vendedor' || $_SESSION['tipo']=='administrador' || $_SESSION['tipo']=='comprador'){
+                    echo "<a href='modificar.php' class='boton'>Modificar</a>";
+                }?>
+                <?php if ($_SESSION['tipo']=='administrador'){
+                    echo "<a href='borrar.php' class='boton'>Borrar</a>";
+                }?>
             </div><br>
             <section class="galeria">
                 <div class="galeriaimagenes">

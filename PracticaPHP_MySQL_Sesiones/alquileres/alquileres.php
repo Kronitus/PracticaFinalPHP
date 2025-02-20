@@ -91,7 +91,9 @@ session_start();
             <p>¿Que operación quieres hacer?</p><br>
             <div class="botones">
                 <a href="listar.php" class="boton">Listar</a>
-                <a href="borrar.php" class="boton">Borrar</a>
+                <?php if ($_SESSION['tipo']=='comprador' || $_SESSION['tipo']=='administrador'){
+                    echo "<a href='borrar.php' class='boton'>Borrar</a>";
+                }?>
             </div><br>
             <section class="galeria">
                 <div class="galeriaimagenes">
