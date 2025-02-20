@@ -76,11 +76,11 @@ session_start();
                     </li>
                 <?php } ?>
                 <li>
-                    <a href="../registro.html"><img src="../icono.png" width="20"></a>
+                    <a href="../registro.php"><img src="../icono.png" width="20"></a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../login.html">Login</a></li>
-                        <li><a href="../registro.html">Registrarse</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../registro.php">Registrarse</a></li>
                         <li><a href="../logout.php">Logout</a></li>
                     </ul>
                 </li>
@@ -89,32 +89,43 @@ session_start();
         <main class="contenido">
         <h2>ALQUILERES</h2>
          <?PHP
-            $conexion = mysqli_connect ("localhost", "root", "rootroot")
-            or die ("No se puede conectar con el servidor");
+            $tipo=$_SESSION['tipo'];
+            $id_usuario=$_SESSION['id_usuario'];
 
-            mysqli_select_db ($conexion,"concesionario")
-            or die ("No se puede seleccionar la base de datos");
-
-            $instruccion = "select * from alquileres";
-            $consulta = mysqli_query ($conexion,$instruccion)
+            if ($tipo=='administrador'){
+                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario";
+            }
+            elseif ($tipo=='comprador'){
+                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario where a.id_usuario='$id_usuario'";
+            }
+            elseif ($tipo=='vendedor'){
+                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario where c.id_vendedor='$id_usuario'";
+            }
+            
+            $consulta = mysqli_query ($conn,$instruccion)
             or die ("Fallo en la consulta");
 
             $nfilas = mysqli_num_rows ($consulta);
             if ($nfilas > 0){
                print ("<TABLE border=1 align=center>\n");
                print ("<TR>\n");
-               print ("<TH height=50px width=200px>ID</TH>\n");
-               print ("<TH height=50px width=200px>ID_Usuario</TH>\n");
-               print ("<TH height=50px width=200px>ID_Coche</TH>\n");
+               print ("<TH height=50px width=200px>Vendedor</TH>\n");
+               print ("<TH height=50px width=200px>Alquilado por</TH>\n");
+               print ("<TH height=50px width=200px>Coche</TH>\n");
+               print ("<TH height=50px width=200px>Foto</TH>\n");
                print ("<TH height=50px width=200px>Prestado</TH>\n");
                print ("<TH height=50px width=200px>Devuelto</TH>\n");
                print ("</TR>\n");
                for ($i=0; $i<$nfilas; $i++){
                   $resultado = mysqli_fetch_array ($consulta);
                   print ("<TR>\n");
-                  print ("<TD>" . $resultado['id_alquiler'] . "</TD>\n");
-                  print ("<TD>" . $resultado['id_usuario'] . "</TD>\n");
-                  print ("<TD>" . $resultado['id_coche'] . "</TD>\n");
+                  print ("<TD>" . $resultado['vendedor'] . "</TD>\n");
+                  print ("<TD>" . $resultado['usuario'] . "</TD>\n");
+                  print ("<TD>" . $resultado['coche'] . "</TD>\n");
+                  print ("<TD><img src='../coches/img/" . htmlspecialchars($resultado['foto']) . "' width=200 height=100 align=center></TD>\n");
                   print ("<TD>" . $resultado['prestado'] . "</TD>\n");
                   print ("<TD>" . $resultado['devuelto'] . "</TD>\n");      
                   print ("</TR>\n");
@@ -124,7 +135,7 @@ session_start();
             else{
                print ("No hay alquileres disponibles");
             }
-            mysqli_close ($conexion);
+            mysqli_close ($conn);
          ?>
         </main>
         <footer class="footer">

@@ -76,11 +76,11 @@ session_start();
                     </li>
                 <?php } ?>
                 <li>
-                    <a href="../registro.html"><img src="../icono.png" width="20"></a>
+                    <a href="../registro.php"><img src="../icono.png" width="20"></a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../login.html">Login</a></li>
-                        <li><a href="../registro.html">Registrarse</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../registro.php">Registrarse</a></li>
                         <li><a href="../logout.php">Logout</a></li>
                     </ul>
                 </li>
@@ -99,12 +99,11 @@ session_start();
             if (mysqli_num_rows($result)>0){
                 echo "<form action='borrar2.php' method='post'>";
                 echo "<TABLE border=1 align=center>";
-                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>ID</th><th height=50px width=200px>ID_Usuario</th><th height=50px width=200px>ID_Coche</th>
+                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>ID_Usuario</th><th height=50px width=200px>ID_Coche</th>
                 <th height=50px width=200px>Prestado</th><th height=50px width=200px>Devuelto</th></tr>";
                 while ($row = mysqli_fetch_assoc($result)){
                     echo "<TR>";
                     echo "<TD><input type='checkbox' name='delete_ids[]' value='". $row['id_alquiler'] ."'></TD>";
-                    echo "<TD>" . htmlspecialchars($row['id_alquiler']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['id_usuario']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['id_coche']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['prestado']) . "</TD>";

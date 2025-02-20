@@ -76,11 +76,11 @@ session_start();
                     </li>
                 <?php } ?>
                 <li>
-                    <a href="../registro.html"><img src="../icono.png" width="20"></a>
+                    <a href="../registro.php"><img src="../icono.png" width="20"></a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../login.html">Login</a></li>
-                        <li><a href="../registro.html">Registrarse</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../registro.php">Registrarse</a></li>
                         <li><a href="../logout.php">Logout</a></li>
                     </ul>
                 </li>

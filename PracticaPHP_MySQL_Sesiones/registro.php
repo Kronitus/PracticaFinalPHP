@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -7,39 +10,38 @@
 		<title>AutosOctagram</title>
 	</head>
 	<body>
-		<div class="container">
-			<?php
+		<?php
 			$conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
 			if (!$conn){
 				die ("conexion fallida: ". mysqli_connect_error());
 			}
-
-			$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-			if (!$conn) {
-				die("Connection failed: " . mysqli_connect_error());
-			}
-			
-			$nombre=$_REQUEST['name'];
-			$apellido=$_REQUEST['apellido'];
-			$dni=$_REQUEST['dni'];
-			$contra=$_REQUEST['password'];
-			$saldo=$_REQUEST['saldo'];
-			$tipo=$_REQUEST['tipo'];
-			
-			
-			$sql = "insert into usuarios (password, nombre, apellidos, dni, saldo, tipo_usuario) values ('$contra','$nombre','$apellido','$dni','$saldo','$tipo')";
-
-			if (mysqli_query($conn,$sql)){
-                echo "Usuario registrado con éxito.";
-            }
-            else{
-                echo "Error al registrarse: ". mysqli_error($conn);
-            }
-            
-            mysqli_close($conn);
-            echo "<br><a href='login.html' class='plis'>Volver para añadir</a>";
-			?>
-		</div>
+		?>
+		<header class="header">
+            <h1>Autos Octagram</h1>
+        </header>
+		<h1 class="loguearse">Regístrate</h1>
+		<form action="registro2.php" method="post" class="formulariopro">	
+			<input type="text" name="nombre" placeholder="Introduce tu nombre" required>			
+			<input type="text" name="apellido" placeholder="Introduce tu apellido" required>
+			<input type="text" name="dni" min=9 max=9 placeholder="Introduce tu dni" required>
+			<input type="password" name="password" placeholder="Introduce tu contraseña" required>
+			<input type="number" name="saldo" placeholder="Introduce tu saldo" required>
+            <select name="tipo">
+                <option value="comprador">Comprador</option>
+                <option value="vendedor">Vendedor</option>
+            </select>
+			<input type="submit" value="Crear una cuenta">
+		</form>
+		<hr width=50%>
+		<section class="centro">
+			<h3>Login</h3>
+			<p><a href="login.php" class="plis">Si tienes cuenta, inicia sesión</a></p>
+			<hr width=50%>
+			<p><a href="./logout.php" class="plis">Entrar sin registrarse</a></p>
+		</section>
+		<footer class="footer">
+			<p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,
+					electronic, mechanical or photocopying, recording, or otherwise without the prior permission of the publisher.</p>
+		</footer>
 	</body>
 </html>

@@ -76,11 +76,11 @@ session_start();
                     </li>
                 <?php } ?>
                 <li>
-                    <a href="../registro.html"><img src="../icono.png" width="20"></a>
+                    <a href="../registro.php"><img src="../icono.png" width="20"></a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../login.html">Login</a></li>
-                        <li><a href="../registro.html">Registrarse</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../registro.php">Registrarse</a></li>
                         <li><a href="../logout.php">Logout</a></li>
                     </ul>
                 </li>
@@ -88,21 +88,42 @@ session_start();
         </nav>
         <main class="contenido">
             <h2>USUARIOS</h2>
-            <form action="modificar2.php" method="post" class="formulariopro">
-                <label for="opcion">Que quieres editar:</label>
-                <select name="opcion" required>
-                    <option value="id_usuario">ID</option>
-                    <option value="password">Contraseña</option>
-                    <option value="nombre">Nombre</option>
-                    <option value="apellidos">Apellido</option>
-                    <option value="dni">DNI</option>
-                    <option value="saldo">Saldo</option>
-                    <option value="tipo_usuario">Tipo de usuario</option>
-                </select><br>
-                <label for="valor">Introduce el valor:</label>
-                <input type="text" name="valor" required><br>
-                <input type="submit" value="Buscar">
-            </form>
+            <table border="1">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Contraseña</th>
+                <th>DNI</th>
+                <th>Saldo</th>
+                <th>Acción</th>
+            </tr>
+            <?php
+            $usuario=$_SESSION['dni'];
+
+            if ($_SESSION['tipo']=='administrador'){
+                $sql="select * from usuarios";
+            } else {
+                $sql="select * from usuarios where dni='$usuario'";
+            }
+
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_assoc($result)){
+                echo "<tr>
+                        <td>". $row['nombre'] ."</td>
+                        <td>". $row['apellidos'] ."</td>
+                        <td>". $row['password'] ."</td>
+                        <td>". $row['dni'] ."</td>
+                        <td>". $row['saldo'] ."</td>
+                        <td>
+                            <form action='modificar2.php' method='post'>
+                                <input type='hidden' name='id_usuario' value=" . $row['id_usuario'] .">
+                                <button type='submit' class='plis'>Modificar</button>
+                            </form>
+                        </td>
+                      </tr>";
+            }
+            ?>
+            </table>
         </main>
         <footer class="footer">
             <p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,

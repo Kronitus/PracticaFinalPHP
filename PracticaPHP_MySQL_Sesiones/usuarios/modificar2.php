@@ -76,11 +76,11 @@ session_start();
                     </li>
                 <?php } ?>
                 <li>
-                    <a href="../registro.html"><img src="../icono.png" width="20"></a>
+                    <a href="../registro.php"><img src="../icono.png" width="20"></a>
                     <ul>
                         <li><a href="../index.php">Inicio</a></li>
-                        <li><a href="../login.html">Login</a></li>
-                        <li><a href="../registro.html">Registrarse</a></li>
+                        <li><a href="../login.php">Login</a></li>
+                        <li><a href="../registro.php">Registrarse</a></li>
                         <li><a href="../logout.php">Logout</a></li>
                     </ul>
                 </li>
@@ -89,19 +89,15 @@ session_start();
         <main class="contenido">
         <h2>USUARIOS</h2>
         <?PHP
-            $servername="localhost";$username="root";$password="rootroot";$dbname="concesionario";
-            
-            $conn = mysqli_connect ($servername,$username,$password,$dbname);
-            
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
+            if ($_SESSION['tipo']=='administrador') {
+                $id_usuario = $_POST['id_usuario'];
             }
-            
-            $opcion=$_REQUEST['opcion'];
-            $valor=$_REQUEST['valor'];
+            else{
+                $id_usuario = $_SESSION['id_usuario'];
+            }
 
-            
-            $sql = "select * from usuarios where $opcion = '$valor'";
+            $sql = "select * from usuarios where id_usuario = $id_usuario";
+
             $result= mysqli_query($conn,$sql);
             
             if (mysqli_num_rows($result)>0){
@@ -119,16 +115,19 @@ session_start();
                 <input type="text" name="dni" value="<?php echo $row['dni']; ?>" required><br>
                 <label for="saldo">Saldo:</label>
                 <input type="number" name="saldo" value="<?php echo $row['saldo']; ?>" required><br>
-                <label for="tipo">Tipo de usuario:</label>
-                <select name="tipo">
-                <option value="comprador" <?php if ($row['tipo_usuario'] == 'comprador') echo 'selected'; ?> >Comprador</option>
-                <option value="vendedor" <?php if ($row['tipo_usuario'] == 'vendedor') echo 'selected'; ?> >Vendedor</option>
-                <option value="administrador" <?php if ($row['tipo_usuario'] == 'administrador') echo 'selected'; ?> >Administrador</option>
-                </select><br>
+                <?php
+                    if ($_SESSION['tipo']=='administrador'){ ?>
+                    <label for="tipo">Tipo de usuario:</label>
+                    <select name="tipo">
+                        <option value="comprador" <?php if ($row['tipo_usuario'] == 'comprador') echo 'selected'; ?> >Comprador</option>
+                        <option value="vendedor" <?php if ($row['tipo_usuario'] == 'vendedor') echo 'selected'; ?> >Vendedor</option>
+                        <option value="administrador" <?php if ($row['tipo_usuario'] == 'administrador') echo 'selected'; ?> >Administrador</option>
+                    </select><br>
+                    <?php } ?>
                 <input type="submit" value="Actualizar">
             </form>
             <?php
-            }
+            }}
             ?>
         </main>
         <footer class="footer">
@@ -137,10 +136,3 @@ session_start();
         </footer>
 	</body>
 </html>
-<?php
-    }
-    else{
-        echo "No se encontró ningún usuario con ese valor.";
-    }
-    mysqli_close($conn);
-?>

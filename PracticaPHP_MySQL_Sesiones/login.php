@@ -10,44 +10,31 @@ session_start();
 		<title>AutosOctagram</title>
 	</head>
 	<body>
+		<?php
+			$conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
+			if (!$conn){
+				die ("conexion fallida: ". mysqli_connect_error());
+			}
+		?>
 		<header class="header">
             <h1>Autos Octagram</h1>
         </header>
-		<div >
-            <?php
-                $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
-                if (!$conn){
-                    die ("conexion fallida: ". mysqli_connect_error());
-                }
-
-                $dni=$_POST['dni'];
-                $password=$_POST['password'];
-
-                $sql="select * from usuarios where dni='$dni' and password='$password'";
-                $result= mysqli_query($conn,$sql);
-
-                $row = mysqli_fetch_assoc($result);
-                $hash = $row['password'];
-
-
-                if ($password==$hash) {
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['id_usuario'] = $row['id_usuario'];
-                    $_SESSION['nombre'] = $row['nombre'];
-                    $_SESSION['apellidos'] = $row['apellidos'];
-                    $_SESSION['tipo'] = $row['tipo_usuario'];
-                    $_SESSION['start'] = time();
-                    $_SESSION['expire'] = $_SESSION['start'] + (1 * 60);
-                    mysqli_close($conn);
-                    header("Location: index.php");
-                    exit;
-
-                } else {
-                    mysqli_close($conn);
-                    echo "<div >DNI o Contraseña incorrectos!
-                    <p><a href='login.html' class='plis'><strong>¡Intentalo de nuevo!</strong></a></p></div>";
-                }
-            ?>
-        </div>
+		<h1 class="loguearse">Login</h1>
+		<form action="login2.php" method="post" class="formulariopro">	
+			<input type="text" name="dni" min=9 max=9 placeholder="DNI" required>
+			<input type="password" name="password" placeholder="Contraseña" required>
+			<input type="submit" value="Loguearse">
+		</form>
+		<hr width=50%>
+		<section class="centro">
+			<h3>Regístrate</h3>
+			<p><a href="registro.php" class="plis">Crear una cuenta, en caso de no tenerla</a></p>
+			<hr width=50%>
+			<p><a href="./logout.php" class="plis">Entrar sin registrarse</a></p>
+		</section>
+		<footer class="footer">
+			<p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,
+					electronic, mechanical or photocopying, recording, or otherwise without the prior permission of the publisher.</p>
+		</footer>
 	</body>
 </html>
