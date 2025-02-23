@@ -89,10 +89,10 @@ session_start();
         <main class="contenido">
             <h2>COCHES</h2>
             <form action="buscar2.php" method="post" class="formulariopro">
-                <label for="modelo">Modelo:</label>
-                <input type="text" name="modelo" required><br>
                 <label for="marca">Marca:</label>
                 <input type="text" name="marca" required><br>
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" required><br>
                 <input type="submit" value="Insertar">
             </form>
         </main>

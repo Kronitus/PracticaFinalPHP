@@ -108,30 +108,50 @@ session_start();
                 if ($nfilas > 0){
                     print ("<TABLE border=1 align=center>\n");
                     print ("<TR>\n");
-                    print ("<TH height=50px width=200px>ID</TH>\n");
-                    print ("<TH height=50px width=200px>Modelo</TH>\n");
                     print ("<TH height=50px width=200px>Marca</TH>\n");
+                    print ("<TH height=50px width=200px>Modelo</TH>\n");
                     print ("<TH height=50px width=200px>Color</TH>\n");
                     print ("<TH height=50px width=200px>Precio</TH>\n");
                     print ("<TH height=50px width=200px>Alquilado</TH>\n");
                     print ("<TH height=50px width=200px>Foto</TH>\n");
+                    if ($_SESSION['tipo']=='comprador'){
+                        print ("<TH height=50px width=200px>Alquilar</TH>\n");
+                    }
                     print ("</TR>\n");
                     for ($i=0; $i<$nfilas; $i++){
                         $resultado = mysqli_fetch_array ($consulta);
+                        if ($resultado['alquilado']==1){
+                            $alquilado="Si";
+                        }
+                        else{
+                            $alquilado="No";
+                        }
                         print ("<TR>\n");
-                        print ("<TD>" . $resultado['id_coche'] . "</TD>\n");
-                        print ("<TD>" . $resultado['modelo'] . "</TD>\n");
                         print ("<TD>" . $resultado['marca'] . "</TD>\n");
+                        print ("<TD>" . $resultado['modelo'] . "</TD>\n");
                         print ("<TD>" . $resultado['color'] . "</TD>\n");
                         print ("<TD>" . $resultado['precio'] . "</TD>\n");
-                        print ("<TD>" . $resultado['alquilado'] . "</TD>\n");   
+                        print ("<TD>" . $alquilado . "</TD>\n");
                         print ("<TD><img src='./img/" . htmlspecialchars($resultado['foto']) . "' width=200 height=100 align=center></TD>\n");  
+                        if ($_SESSION['tipo']=='comprador'){
+                            if ($resultado['alquilado']==0){
+                                print ("<TD>
+                                            <form action='alquilar.php' method='post'>
+                                                <input type='hidden' name='id_coche' value=" . $resultado['id_coche'] .">
+                                                <button type='submit' class='plis'>Alquilar</button>
+                                            </form>
+                                        </TD>\n");
+                            }
+                            else{
+                                print ("<TD>Ya está reservado</TD>\n");
+                            }
+                        }
                         print ("</TR>\n");
                     }
                     print ("</TABLE>\n");
                 }
                 else{
-                    print "No hay ningún coche con modelo $modelo ni marca $marca.";
+                    print "No hay ningún coche $marca $modelo.";
                 }
             }
             else{
@@ -139,7 +159,7 @@ session_start();
             }
             
             mysqli_close($conn);
-            echo "<a href='buscar.html' class='plis'>Volver al listado</a>";
+            echo "<a href='buscar.php' class='plis'>Volver al listado</a>";
         ?>
         </main>
         <footer class="footer">
