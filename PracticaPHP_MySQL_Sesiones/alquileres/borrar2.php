@@ -89,20 +89,36 @@ session_start();
         <main class="contenido">
         <h2>ALQUILERES</h2>
         <?PHP
-            $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
-            }
-            
-            if (isset($_REQUEST['delete_ids']) && is_array($_REQUEST['delete_ids'])){
-                $ids_to_delete = implode(",", array_map('intval',$_REQUEST['delete_ids']));
-            
-                $sql = "delete from alquileres where id_alquiler in ($ids_to_delete)";
-                if (mysqli_query($conn,$sql)){
-                    echo "<h1>Alquileres eliminados correctamente</h1>";
+            $tipo=$_SESSION['tipo'];
+
+            if (isset($_POST['delete_ids']) && is_array($_POST['delete_ids'])){
+                $ids_to_delete = implode(",", array_map('intval',$_POST['delete_ids']));
+                if ($tipo=='administrador'){
+                    $sql = "delete from alquileres where id_alquiler in ($ids_to_delete)";
+                    if (mysqli_query($conn,$sql)){
+                        echo "<h1>Alquileres eliminados correctamente</h1>";
+                    }
+                    else{
+                        echo "<h1>Error al eliminar alquileres: ". mysqli_error($conn) ."</h1>";
+                    }
                 }
-                else{
-                    echo "<h1>Error al eliminar alquileres: ". mysqli_error($conn) ."</h1>";
+                elseif ($tipo=='comprador' && isset($_POST['id_coche'])){
+                    foreach ($_POST['delete_ids'] as $id_alquiler){
+                        $id_coche = $_POST['id_coche'][$id_alquiler];
+                        $devuelto = "update alquileres set devuelto=NOW() where id_alquiler='$id_alquiler'";
+                        if (mysqli_query($conn, $devuelto)){
+                            echo "<h1>Alquiler del coche devuelto correctamente</h1>";
+                        }
+                        else{
+                            echo "<h1>Error al actualizar el alquiler: ". mysqli_error($conn) ."</h1>";
+                        }
+                        $alquilado = "update coches set alquilado=0 where id_coche='$id_coche'";
+                        if (mysqli_query($conn, $alquilado)) {
+                            echo "<h1>Estado del coche actualizado correctamente</h1>";
+                        } else {
+                            echo "<h1>Error al actualizar el estado del coche: " . mysqli_error($conn) . "</h1>";
+                        }
+                    }
                 }
             }
             else{

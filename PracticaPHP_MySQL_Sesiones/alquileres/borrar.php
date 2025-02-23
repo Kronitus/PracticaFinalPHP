@@ -89,30 +89,45 @@ session_start();
         <main class="contenido">
         <h2>ALQUILERES</h2>
         <?PHP
-            $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
+            $tipo=$_SESSION['tipo'];
+            $id_usuario=$_SESSION['id_usuario'];
+
+            if ($tipo=='administrador'){
+                $sql = "select a.id_alquiler, c.id_coche, concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario";
+            }
+            elseif ($tipo=='comprador'){
+                $sql = "select a.id_alquiler, c.id_coche, concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario where a.id_usuario='$id_usuario' and a.devuelto is null";
             }
 
-            $sql = "select * from alquileres";
             $result = mysqli_query ($conn,$sql);
             if (mysqli_num_rows($result)>0){
                 echo "<form action='borrar2.php' method='post'>";
                 echo "<TABLE border=1 align=center>";
-                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>ID_Usuario</th><th height=50px width=200px>ID_Coche</th>
-                <th height=50px width=200px>Prestado</th><th height=50px width=200px>Devuelto</th></tr>";
+                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>Vendedor</th><th height=50px width=200px>Alquilado por</th>
+                <th height=50px width=200px>Coche</th><th height=50px width=200px>Foto</th><th height=50px width=200px>Prestado</th><th height=50px width=200px>Devuelto</th></tr>";
                 while ($row = mysqli_fetch_assoc($result)){
                     echo "<TR>";
                     echo "<TD><input type='checkbox' name='delete_ids[]' value='". $row['id_alquiler'] ."'></TD>";
-                    echo "<TD>" . htmlspecialchars($row['id_usuario']) . "</TD>";
-                    echo "<TD>" . htmlspecialchars($row['id_coche']) . "</TD>";
+                    echo "<input type='hidden' name='id_coche[" . $row['id_alquiler'] . "]' value='" . $row['id_coche'] ."'>";
+                    echo "<TD>" . htmlspecialchars($row['vendedor']) . "</TD>";
+                    echo "<TD>" . htmlspecialchars($row['usuario']) . "</TD>";
+                    echo "<TD>" . htmlspecialchars($row['coche']) . "</TD>";
+                    echo "<TD><img src='../coches/img/" . htmlspecialchars($row['foto']) . "' width=200 height=100 align=center></TD>";
                     echo "<TD>" . htmlspecialchars($row['prestado']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['devuelto']) . "</TD>";
                     print "</TR>";
                 }
                 echo "</TABLE>";
                 echo "<br>";
-                echo "<button type='submit'>Eliminar seleccionados</button>";
+                if ($tipo=='comprador'){
+                    echo "<input type='hidden' name='id_coche[]' value='" . $row['id_coche'] ."'>";
+                    echo "<button type='submit'>Devolver alquiler seleccionados</button>";
+                }
+                if ($tipo=='administrador'){
+                    echo "<button type='submit'>Eliminar seleccionados</button>";
+                }
                 echo "</form>";
             }
             else{

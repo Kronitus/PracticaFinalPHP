@@ -93,19 +93,19 @@ session_start();
             $id_usuario=$_SESSION['id_usuario'];
 
             if ($tipo=='administrador'){
-                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                $sql = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
                 from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario";
             }
             elseif ($tipo=='comprador'){
-                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                $sql = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
                 from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario where a.id_usuario='$id_usuario'";
             }
             elseif ($tipo=='vendedor'){
-                $instruccion = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
+                $sql = "select concat(v.nombre,' ',v.apellidos) as vendedor, concat(u.nombre,' ',u.apellidos) as usuario, concat(marca,' ',modelo) as coche, foto, prestado, devuelto
                 from alquileres a join usuarios u on a.id_usuario=u.id_usuario join coches c on a.id_coche=c.id_coche join usuarios v on c.id_vendedor=v.id_usuario where c.id_vendedor='$id_usuario'";
             }
             
-            $consulta = mysqli_query ($conn,$instruccion)
+            $consulta = mysqli_query ($conn,$sql)
             or die ("Fallo en la consulta");
 
             $nfilas = mysqli_num_rows ($consulta);
