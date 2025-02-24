@@ -33,7 +33,7 @@ CREATE TABLE `alquileres` (
   KEY `id_coche` (`id_coche`),
   CONSTRAINT `alquileres_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
   CONSTRAINT `alquileres_ibfk_2` FOREIGN KEY (`id_coche`) REFERENCES `coches` (`id_coche`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `alquileres` (
 
 LOCK TABLES `alquileres` WRITE;
 /*!40000 ALTER TABLE `alquileres` DISABLE KEYS */;
-INSERT INTO `alquileres` VALUES (1,1,3,'2024-12-01 10:00:00',NULL),(2,2,5,'2024-11-25 14:30:00','2024-12-01 12:00:00'),(3,3,3,'2024-11-20 09:00:00','2024-11-27 09:00:00'),(4,4,5,'2024-12-01 16:00:00',NULL),(5,5,7,'2024-11-15 08:00:00','2024-11-22 08:00:00'),(6,6,8,'2024-11-10 12:00:00',NULL),(7,7,1,'2024-11-18 11:00:00','2024-11-28 11:00:00'),(9,9,6,'2024-11-23 10:00:00','2024-11-30 10:00:00'),(18,8,2,'2024-12-01 09:00:00',NULL),(20,10,9,'2024-11-29 14:00:00',NULL),(21,20,6,'2025-02-20 12:43:37',NULL),(22,20,10,'2025-02-20 12:45:12',NULL),(23,20,4,'2025-02-20 12:54:25',NULL);
+INSERT INTO `alquileres` VALUES (1,1,3,'2024-12-01 10:00:00',NULL),(2,2,5,'2024-11-25 14:30:00','2024-12-27 09:00:00'),(9,9,6,'2024-11-23 10:00:00','2024-11-30 10:00:00'),(18,8,2,'2024-12-01 09:00:00',NULL),(20,10,9,'2024-11-29 14:00:00',NULL),(23,20,4,'2025-02-20 12:54:25',NULL),(24,20,6,'2025-02-23 18:58:23','2025-02-23 18:59:44'),(25,20,10,'2025-02-23 18:58:29','2025-02-23 18:59:44');
 /*!40000 ALTER TABLE `alquileres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `coches` (
   `foto` varchar(300) DEFAULT NULL,
   `id_vendedor` int(10) DEFAULT NULL,
   PRIMARY KEY (`id_coche`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `coches` (
 
 LOCK TABLES `coches` WRITE;
 /*!40000 ALTER TABLE `coches` DISABLE KEYS */;
-INSERT INTO `coches` VALUES (1,'Model S','Tesla','Rojo',80000,0,'model_s.jpg',4),(2,'Civic','Honda','Azul',25000,1,'civic.jpg',7),(3,'Corolla','Toyota','Blanco',20000,1,'corolla.jpg',7),(4,'Mustang','Ford','Negro',55000,1,'mustang.jpg',11),(5,'Ibiza','Seat','Gris',18000,1,'ibiza.jpg',5),(6,'Astra','Opel','Verde',22000,1,'astra.jpg',5),(7,'Golf','Volkswagen','Amarillo',30000,0,'golf.jpg',7),(8,'Fiesta','Ford','Azul',15000,1,'fiesta.jpg',11),(9,'Accord','Honda','Rojo',27000,1,'accord.jpg',5),(10,'Camry','Toyota','Negro',31000,1,'camry.jpg',4),(20,'Tatra','Tatra 87','Gris',90000,0,'tatra.jpg',11);
+INSERT INTO `coches` VALUES (1,'Model S','Tesla','Rojo',80000,0,'model_s.jpg',4),(2,'Civic','Honda','Azul',25000,1,'civic.jpg',7),(3,'Corolla','Toyota','Blanco',20000,1,'corolla.jpg',7),(4,'Mustang','Ford','Negro',55000,1,'mustang.jpg',11),(5,'Ibiza','Seat','Gris',18000,0,'ibiza.jpg',5),(6,'Astra','Opel','Verde',22000,0,'astra.jpg',5),(7,'Golf','Volkswagen','Amarillo',30000,0,'golf.jpg',7),(8,'Fiesta','Ford','Azul',15000,0,'fiesta.jpg',11),(9,'Accord','Honda','Rojo',27000,1,'accord.jpg',5),(10,'Camry','Toyota','Negro',31000,0,'camry.jpg',4),(20,'Tatra','Tatra 87','Gris',90000,0,'tatra.jpg',11),(23,'Serie 3','BMW','Negro',35000,0,'serie3.jpg',11);
 /*!40000 ALTER TABLE `coches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `usuarios` (
   `saldo` float DEFAULT NULL,
   `tipo_usuario` enum('comprador','vendedor','administrador') DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'pass1234','Juan','Pérez','12345678A',10000,'comprador'),(2,'password1','Ana','López','87654321B',5000,'comprador'),(3,'securepass','Carlos','García','11223344C',15000,'administrador'),(4,'mypass2023','María','Martínez','44332211D',2000,'vendedor'),(5,'qwerty','Luis','Hernández','55667788E',3000,'vendedor'),(6,'adminpass','Laura','Fernández','99887766F',7500,'administrador'),(7,'12345','Pedro','Sánchez','22334455G',12000,'vendedor'),(8,'abcd1234','Sofía','Díaz','66778899H',4000,'comprador'),(9,'mypassword','Javier','Morales','88990011I',8500,'comprador'),(10,'letmein','Carmen','Ortiz','33445566J',9200,'comprador'),(11,'caramelo','Manisha','Kumar','12312312A',4000,'vendedor'),(14,'cafe','Alvaro','Lopez','45645645B',1000,'administrador'),(20,'capo','Iker','Iturbide','02755940B',20000,'comprador');
+INSERT INTO `usuarios` VALUES (1,'pass1234','Juan','Pérez','12345678A',10000,'comprador'),(2,'password1','Ana','López','87654321B',5000,'comprador'),(3,'securepass','Carlos','García','11223344C',15000,'administrador'),(4,'mypass2023','María','Martínez','44332211D',2000,'vendedor'),(5,'qwerty','Luis','Hernández','55667788E',3000,'vendedor'),(6,'adminpass','Laura','Fernández','99887766F',7500,'administrador'),(7,'12345','Pedro','Sánchez','22334455G',12000,'vendedor'),(8,'abcd1234','Sofía','Díaz','66778899H',4000,'comprador'),(9,'mypassword','Javier','Morales','88990011I',8500,'comprador'),(10,'letmein','Carmen','Ortiz','33445566J',9200,'comprador'),(11,'caramelo','Manisha','Kumar','12312312A',4000,'vendedor'),(14,'cafe','Alvaro','Lopez','45645645B',1000,'administrador'),(20,'capo','Iker','Iturbide','02755940B',20000,'comprador'),(21,'camion','Jose','Prieto','23866051D',6000,'administrador');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -114,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-20 14:03:07
+-- Dump completed on 2025-02-24 18:54:46
