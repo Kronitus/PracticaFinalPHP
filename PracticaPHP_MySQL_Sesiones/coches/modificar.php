@@ -88,21 +88,50 @@ session_start();
         </nav>
         <main class="contenido">
             <h2>COCHES</h2>
-            <form action="modificar2.php" method="post" class="formulariopro">
-                <label for="opcion">Que quieres editar:</label>
-                <select name="opcion" required>
-                    <option value="id_coche">ID</option>
-                    <option value="modelo">Modelo</option>
-                    <option value="marca">Marca</option>
-                    <option value="color">Color</option>
-                    <option value="precio">Precio</option>
-                    <option value="alquilado">Alquilado</option>
-                    <option value="foto">Foto</option>
-                </select><br>
-                <label for="valor">Introduce el valor:</label>
-                <input type="text" name="valor" required><br>
-                <input type="submit" value="Buscar">
-            </form>
+            <table border="1">
+            <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Precio</th>
+                <th>Alquilado</th>
+                <th>Foto</th>
+                <th>Acción</th>
+            </tr>
+            <?php
+            $usuario=$_SESSION['id_usuario'];
+
+            if ($_SESSION['tipo']=='vendedor'){
+                $sql="select * from coches where id_vendedor='$usuario'";
+            } else {
+                $sql="select * from coches";
+            }
+
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_assoc($result)){
+                if ($row['alquilado']==1){
+                    $alquilado="Si";
+                }
+                else{
+                    $alquilado="No";
+                }
+                echo "<tr>
+                        <td>". $row['marca'] ."</td>
+                        <td>". $row['modelo'] ."</td>
+                        <td>". $row['color'] ."</td>
+                        <td>". $row['precio'] ."</td>
+                        <td>". $alquilado ."</td>
+                        <td><img src='./img/" . htmlspecialchars($row['foto']) . "' width=200 height=100 align=center></td>
+                        <td>
+                            <form action='modificar2.php' method='post'>
+                                <input type='hidden' name='id_coche' value=" . $row['id_coche'] .">
+                                <button type='submit' class='plis'>Modificar</button>
+                            </form>
+                        </td>
+                      </tr>";
+            }
+            ?>
+            </table>
         </main>
         <footer class="footer">
             <p> © 2024. All rights reserved. No part of this publication can be reproduced, stored in a retrieval system or transmitted in any form or by any means,

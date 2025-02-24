@@ -101,7 +101,7 @@ session_start();
             $marca=$_REQUEST['marca'];
             $color=$_REQUEST['color'];
             $precio=$_REQUEST['precio'];
-            $alquilado=$_REQUEST['alquilado'];
+            $id_vendedor=$_SESSION['id_usuario'];
             
             $target_dir = "./img/";
             $file = $_FILES['imagen'];
@@ -114,7 +114,7 @@ session_start();
                 die ("Hubo un error al subir el archivo.");
             }
             
-            $sql = "insert into coches (modelo, marca, color, precio, alquilado, foto) values ('$modelo','$marca','$color','$precio','$alquilado','$image_name')";
+            $sql = "insert into coches (modelo, marca, color, precio, alquilado, foto, id_vendedor) values ('$modelo','$marca','$color','$precio',0,'$image_name','$id_vendedor')";
             
             if (mysqli_query($conn,$sql)){
                 echo "Coche insertado con éxito.";

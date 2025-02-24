@@ -89,11 +89,6 @@ session_start();
         <main class="contenido">
         <h2>COCHES</h2>
         <?PHP
-            $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
-            }
-            
             if (isset($_REQUEST['delete_ids']) && is_array($_REQUEST['delete_ids'])){
                 $ids_to_delete = implode(",", array_map('intval',$_REQUEST['delete_ids']));
             

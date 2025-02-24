@@ -89,23 +89,14 @@ session_start();
         <main class="contenido">
         <h2>COCHES</h2>
         <?PHP
-            $servername="localhost";$username="root";$password="rootroot";$dbname="concesionario";
-            
-            $conn = mysqli_connect ($servername,$username,$password,$dbname);
-            
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
-            }
-            
             $id=$_REQUEST['id'];
             $modelo=$_REQUEST['modelo'];
             $marca=$_REQUEST['marca'];
             $color=$_REQUEST['color'];
             $precio=$_REQUEST['precio'];
-            $alquilado=$_REQUEST['alquilado'];
             $foto=$_REQUEST['foto'];
             
-            $sql = "update coches set modelo='$modelo', marca='$marca', color='$color', precio='$precio', alquilado='$alquilado', foto='$foto' where id_coche='$id'";
+            $sql = "update coches set modelo='$modelo', marca='$marca', color='$color', precio='$precio', foto='$foto' where id_coche='$id'";
             
             if (mysqli_query($conn,$sql)){
                 echo "Coche actualizado con éxito.";

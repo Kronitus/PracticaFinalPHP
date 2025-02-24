@@ -89,38 +89,40 @@ session_start();
         <main class="contenido">
         <h2>USUARIOS</h2>
          <?PHP
-            $conexion = mysqli_connect ("localhost", "root", "rootroot")
-            or die ("No se puede conectar con el servidor");
-
-            mysqli_select_db ($conexion,"concesionario")
-            or die ("No se puede seleccionar la base de datos");
-
-            $instruccion = "select * from usuarios";
-            $consulta = mysqli_query ($conexion,$instruccion)
+            $tipo=$_SESSION['tipo'];
+            if ($tipo=='administrador'){
+                $sql = "select * from usuarios";
+            }
+            elseif ($tipo=='vendedor'){
+                $sql = "select * from usuarios where tipo_usuario='comprador'";
+            }
+            $consulta = mysqli_query ($conn,$sql)
             or die ("Fallo en la consulta");
 
             $nfilas = mysqli_num_rows ($consulta);
             if ($nfilas > 0){
                print ("<TABLE border=1 align=center>\n");
                print ("<TR>\n");
-               print ("<TH height=50px width=200px>ID</TH>\n");
-               print ("<TH height=50px width=200px>Contraseña</TH>\n");
                print ("<TH height=50px width=200px>Nombre</TH>\n");
                print ("<TH height=50px width=200px>Apellido</TH>\n");
                print ("<TH height=50px width=200px>DNI</TH>\n");
                print ("<TH height=50px width=200px>Saldo</TH>\n");
-               print ("<TH height=50px width=200px>Tipo</TH>\n");
+               if ($tipo=="administrador"){
+                print ("<TH height=50px width=200px>Contraseña</TH>\n");
+                print ("<TH height=50px width=200px>Tipo</TH>\n");
+               }
                print ("</TR>\n");
                for ($i=0; $i<$nfilas; $i++){
                   $resultado = mysqli_fetch_array ($consulta);
                   print ("<TR>\n");
-                  print ("<TD>" . $resultado['id_usuario'] . "</TD>\n");
-                  print ("<TD>" . $resultado['password'] . "</TD>\n");
                   print ("<TD>" . $resultado['nombre'] . "</TD>\n");
                   print ("<TD>" . $resultado['apellidos'] . "</TD>\n");
                   print ("<TD>" . $resultado['dni'] . "</TD>\n");
                   print ("<TD>" . $resultado['saldo'] . "</TD>\n");
-                  print ("<TD>" . $resultado['tipo_usuario'] . "</TD>\n");      
+                  if ($tipo=='administrador'){
+                    print ("<TD>" . $resultado['password'] . "</TD>\n");
+                    print ("<TD>" . $resultado['tipo_usuario'] . "</TD>\n");
+                  }
                   print ("</TR>\n");
                }
                print ("</TABLE>\n");
@@ -128,7 +130,7 @@ session_start();
             else{
                print ("No hay usuarios disponibles");
             }
-            mysqli_close ($conexion);
+            mysqli_close ($conn);
          ?>
         </main>
         <footer class="footer">

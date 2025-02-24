@@ -89,47 +89,27 @@ session_start();
         <main class="contenido">
         <h2>COCHES</h2>
         <?PHP
-            $servername="localhost";$username="root";$password="rootroot";$dbname="concesionario";
-            
-            $conn = mysqli_connect ($servername,$username,$password,$dbname);
-            
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
-            }
-            
-            $opcion=$_REQUEST['opcion'];
-            $valor=$_REQUEST['valor'];
-            
-            if ($opcion=="alquilado" && $valor=="Si"){
-                $valor=1;
-            }
-            else if ($opcion=="alquilado" && $valor=="No"){
-                $valor=0;
-            }
+            $id_coche = $_POST['id_coche'];
 
-            $sql = "select * from coches where $opcion = '$valor'";
+            $sql = "select * from coches where id_coche = $id_coche";
+
             $result= mysqli_query($conn,$sql);
-
+            
             if (mysqli_num_rows($result)>0){
                 while($row=mysqli_fetch_assoc($result)){
         ?>
             <form action="modificar3.php" method="post">
                 <input type="text" readonly name="id" value="<?php echo $row['id_coche']; ?>"><br><br>
-                <label for="modelo">Modelo:</label>
-                <input type="text" name="modelo" value="<?php echo $row['modelo']; ?>" required><br>
                 <label for="marca">Marca:</label>
                 <input type="text" name="marca" value="<?php echo $row['marca']; ?>" required><br>
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" value="<?php echo $row['modelo']; ?>" required><br>
                 <label for="color">Color:</label>
                 <input type="text" name="color" value="<?php echo $row['color']; ?>" required><br>
                 <label for="precio">Precio:</label>
                 <input type="number" name="precio" value="<?php echo $row['precio']; ?>" required><br>
-                <label for="alquilado">Alquilado:</label>
-                <select name="alquilado">
-                <option value="1" <?php if ($row['alquilado'] == '1') echo 'selected'; ?> >Si está alquilado</option>
-                <option value="0" <?php if ($row['alquilado'] == '0') echo 'selected'; ?> >No está alquilado</option>
-                </select><br>
                 <label for="foto">Foto:</label>
-                <input type="text" name="foto" value="<?php echo $row['foto']; ?>" required><br>
+                <input type="file" name="foto" accept="image/*" value="<?php echo $row['foto']; ?>" required><br>
                 <input type="submit" value="Actualizar">
             </form>
             <?php

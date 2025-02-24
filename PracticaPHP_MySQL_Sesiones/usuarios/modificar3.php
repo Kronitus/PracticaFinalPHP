@@ -89,14 +89,6 @@ session_start();
         <main class="contenido">
         <h2>USUARIOS</h2>
         <?PHP
-            $servername="localhost";$username="root";$password="rootroot";$dbname="concesionario";
-            
-            $conn = mysqli_connect ($servername,$username,$password,$dbname);
-            
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
-            }
-            
             $id=$_REQUEST['id'];
             $password=$_REQUEST['password'];
             $nombre=$_REQUEST['nombre'];

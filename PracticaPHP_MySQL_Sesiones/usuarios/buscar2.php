@@ -89,18 +89,20 @@ session_start();
         <main class="contenido">
         <h2>USUARIOS</h2>
         <?PHP
-            $servername="localhost";$username="root";$password="rootroot";$dbname="concesionario";
-            
-            $conn = mysqli_connect ($servername,$username,$password,$dbname);
-            
             if (!$conn){
                 die ("conexion fallida: ". mysqli_connect_error());
             }
             
             $nombre=$_REQUEST['nombre'];
             $apellidos=$_REQUEST['apellidos'];
-            
-            $sql = "select * from usuarios where nombre like '$nombre' or apellidos like '$apellidos'";
+            $tipo=$_SESSION['tipo'];
+
+            if ($tipo=='administrador'){
+                $sql = "select * from usuarios where nombre like '$nombre' or apellidos like '$apellidos'";
+            }
+            elseif ($tipo=='vendedor'){
+                $sql = "select * from usuarios where tipo_usuario='comprador' and (nombre like '$nombre' or apellidos like '$apellidos')";
+            }
             
             if (mysqli_query($conn,$sql)){
                 $consulta = mysqli_query($conn,$sql);
@@ -108,22 +110,26 @@ session_start();
                 if ($nfilas > 0){
                     print ("<TABLE border=1 align=center>\n");
                     print ("<TR>\n");
-                    print ("<TH height=50px width=200px>ID</TH>\n");
-                    print ("<TH height=50px width=200px>Password</TH>\n");
                     print ("<TH height=50px width=200px>Nombre</TH>\n");
-                    print ("<TH height=50px width=200px>Apellidos</TH>\n");
+                    print ("<TH height=50px width=200px>Apellido</TH>\n");
                     print ("<TH height=50px width=200px>DNI</TH>\n");
                     print ("<TH height=50px width=200px>Saldo</TH>\n");
+                    if ($tipo=="administrador"){
+                        print ("<TH height=50px width=200px>Contraseña</TH>\n");
+                        print ("<TH height=50px width=200px>Tipo</TH>\n");
+                    }
                     print ("</TR>\n");
                     for ($i=0; $i<$nfilas; $i++){
                         $resultado = mysqli_fetch_array ($consulta);
                         print ("<TR>\n");
-                        print ("<TD>" . $resultado['id_usuario'] . "</TD>\n");
-                        print ("<TD>" . $resultado['password'] . "</TD>\n");
                         print ("<TD>" . $resultado['nombre'] . "</TD>\n");
                         print ("<TD>" . $resultado['apellidos'] . "</TD>\n");
                         print ("<TD>" . $resultado['dni'] . "</TD>\n");
-                        print ("<TD>" . $resultado['saldo'] . "</TD>\n");   
+                        print ("<TD>" . $resultado['saldo'] . "</TD>\n");
+                        if ($tipo=='administrador'){
+                            print ("<TD>" . $resultado['password'] . "</TD>\n");
+                            print ("<TD>" . $resultado['tipo_usuario'] . "</TD>\n");
+                        }
                         print ("</TR>\n");
                     }
                     print ("</TABLE>\n");

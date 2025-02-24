@@ -89,18 +89,19 @@ session_start();
         <main class="contenido">
         <h2>COCHES</h2>
         <?PHP
-            $conn = mysqli_connect ("localhost", "root", "rootroot", "concesionario");
-            if (!$conn){
-                die ("conexion fallida: ". mysqli_connect_error());
+            $usuario=$_SESSION['id_usuario'];
+            if ($_SESSION['tipo']=='vendedor'){
+                $sql="select * from coches where id_vendedor='$usuario'";
+            } else {
+                $sql="select * from coches";
             }
 
-            $sql = "select * from coches";
             $result = mysqli_query ($conn,$sql);
             if (mysqli_num_rows($result)>0){
                 echo "<form action='borrar2.php' method='post'>";
                 echo "<TABLE border=1 align=center>";
-                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>ID</th><th height=50px width=200px>Modelo</th><th height=50px width=200px>
-                Marca</th><th height=50px width=200px>Color</th><th height=50px width=200px>Precio</th><th height=50px width=200px>Alquilado</th><th height=50px width=200px>Foto</th></tr>";
+                echo "<tr><th height=50px width=200px>Seleccionar</th><th height=50px width=200px>Marca</th><th height=50px width=200px>
+                Modelo</th><th height=50px width=200px>Color</th><th height=50px width=200px>Precio</th><th height=50px width=200px>Alquilado</th><th height=50px width=200px>Foto</th></tr>";
                 while ($row = mysqli_fetch_assoc($result)){
                     if (htmlspecialchars($row['alquilado'])==1){
                         $alquilado="Si";
@@ -110,9 +111,8 @@ session_start();
                      }
                     echo "<TR>";
                     echo "<TD><input type='checkbox' name='delete_ids[]' value='". $row['id_coche'] ."'></TD>";
-                    echo "<TD>" . htmlspecialchars($row['id_coche']) . "</TD>";
-                    echo "<TD>" . htmlspecialchars($row['modelo']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['marca']) . "</TD>";
+                    echo "<TD>" . htmlspecialchars($row['modelo']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['color']) . "</TD>";
                     echo "<TD>" . htmlspecialchars($row['precio']) . "</TD>";
                     echo "<TD>" . $alquilado . "</TD>";

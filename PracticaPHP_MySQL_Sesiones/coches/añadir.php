@@ -97,11 +97,6 @@ session_start();
                 <input type="text" name="color" required><br>
                 <label for="precio">Precio:</label>
                 <input type="number" name="precio" required><br>
-                <label for="alquilado">Alquilado:</label>
-                <select name="alquilado">
-                    <option value="1">Si está alquilado</option>
-                    <option value="0">No está alquilado</option>
-                </select><br>
                 <label for="imagen">Foto:</label>
                 <input type="file" name="imagen" accept="image/*" required><br>
                 <input type="submit" value="Insertar">
