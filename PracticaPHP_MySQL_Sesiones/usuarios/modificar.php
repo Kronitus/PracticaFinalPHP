@@ -108,10 +108,11 @@ session_start();
 
             $result = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_assoc($result)){
+                $pass=password_hash($row['password'], PASSWORD_DEFAULT);
                 echo "<tr>
                         <td>". $row['nombre'] ."</td>
                         <td>". $row['apellidos'] ."</td>
-                        <td>". $row['password'] ."</td>
+                        <td>". $pass ."</td>
                         <td>". $row['dni'] ."</td>
                         <td>". $row['saldo'] ."</td>
                         <td>

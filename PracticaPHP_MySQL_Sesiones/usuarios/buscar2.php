@@ -127,7 +127,8 @@ session_start();
                         print ("<TD>" . $resultado['dni'] . "</TD>\n");
                         print ("<TD>" . $resultado['saldo'] . "</TD>\n");
                         if ($tipo=='administrador'){
-                            print ("<TD>" . $resultado['password'] . "</TD>\n");
+                            $pass=password_hash($resultado['password'], PASSWORD_DEFAULT);
+                            print ("<TD>" . $pass . "</TD>\n");
                             print ("<TD>" . $resultado['tipo_usuario'] . "</TD>\n");
                         }
                         print ("</TR>\n");
